@@ -1,0 +1,141 @@
+📘 C-Vector — A Generic Dynamic Array Library in C
+
+C does not provide a built-in dynamic array type like C++'s std::vector.
+C-Vector is a lightweight, reusable library that brings vector-like functionality to pure C.
+It supports automatic resizing, generic element storage, and safe access, allowing you to work with arrays that grow dynamically.
+
+✨ Features
+
+📦 Create and destroy a vector
+
+📏 Get size and capacity
+
+➕ Add elements (push_back)
+
+➖ Remove elements (pop_back)
+
+🎯 Access or modify elements by index (get, set)
+
+🚀 Automatic resizing using realloc
+
+🔧 Works with any data type using void* and memcpy
+
+🧰 Clean and reusable API
+
+📂 Project Structure
+c-vector/
+│
+├── include/
+│   └── cvector.h
+│
+├── src/
+│   ├── cvector.c
+│   └── main.c
+│
+├── build/
+│
+└── Makefile
+
+⚙️ How It Works
+
+C-Vector internally maintains:
+
+void *data;       // pointer to array memory
+size_t elem_size; // size of each element (bytes)
+size_t size;      // number of elements stored
+size_t capacity;  // allocated capacity
+
+
+When adding elements:
+
+If size < capacity, the element is inserted directly.
+
+If full → capacity doubles (capacity *= 2) to keep push operations efficient.
+
+Memory is resized using realloc.
+
+This technique is called amortized dynamic resizing, used in many dynamic array implementations (std::vector, Python lists, Java ArrayList).
+
+🚀 Demo Application
+
+The included demo program asks the user how many integers to enter, stores them inside a C-Vector, and prints:
+
+all entered values
+
+final size
+
+final capacity
+
+🛠️ Build Instructions
+Compile using Makefile
+
+In the root directory:
+
+make
+
+
+Run:
+
+./demo
+
+
+Clean compiled files:
+
+make clean
+
+🧪 Example Usage
+CVector *v = vector_create(sizeof(int));
+
+int x = 10;
+vector_push_back(v, &x);
+
+printf("Size = %zu\n", vector_size(v));
+printf("Capacity = %zu\n", vector_capacity(v));
+
+int *value = vector_get(v, 0);
+printf("First element = %d\n", *value);
+
+vector_destroy(v);
+
+📘 API Overview
+Creation / Deletion
+CVector* vector_create(size_t elem_size);
+void vector_destroy(CVector *vec);
+
+Element Operations
+void vector_push_back(CVector *vec, void *element);
+void vector_pop_back(CVector *vec);
+void* vector_get(CVector *vec, size_t index);
+void vector_set(CVector *vec, size_t index, void *element);
+
+Info
+size_t vector_size(CVector *vec);
+size_t vector_capacity(CVector *vec);
+
+🔍 Why Generic?
+
+C-Vector uses:
+
+void* to hold any type
+
+elem_size to know how many bytes to copy
+
+memcpy for safe memory movement
+
+This makes the library independent of data type — you can store ints, doubles, structs, anything.
+
+🎓 Key Learning Concepts
+
+Dynamic memory (malloc, realloc, free)
+
+Generic programming in C
+
+Memory management and resizing strategies
+
+Clean API design
+
+Amortized complexity
+
+📄 License
+
+This project is free to use for educational purposes.
